@@ -1,11 +1,23 @@
+import 'component_model.dart';
+
 class SpanModel {
-  final int spanSerial;
-  final int spanLength;
-  //final List<ElementModel> element;
+  int id;
+  String spanName;
+  String spanLength;
+  List<Components> components;
 
   SpanModel({
-    required this.spanSerial,
+    required this.id,
+    required this.spanName,
     required this.spanLength,
-    //required this.element,
+    required this.components,
   });
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['span_name'] = spanName;
+    data['span_length'] = spanLength;
+    data['Components'] = components.map((v) => v.toJson()).toList();
+    return data;
+  }
 }
