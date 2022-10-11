@@ -17,39 +17,59 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("LGED")),
+      floatingActionButton: FloatingActionButton.extended(
+        label: const Text("Add Span"),
+        onPressed: bridgeController.addSpanDialog,
+      ),
       body: GetX<HomeController>(
         builder: (_) {
-          return Column(
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.8,
-                child: ListView.builder(
-                  itemCount: bridgeController.spanWidgetList.length,
-                  itemBuilder: (_, index) {
-                    return bridgeController.spanWidgetList[index];
-                  },
+          return ListView.builder(
+            itemCount: bridgeController.spanData.length,
+            itemBuilder: (_, index) {
+              return Container(
+                padding: const EdgeInsets.all(10.0),
+                margin: const EdgeInsets.all(10.0),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Colors.black12, width: 1)),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        const Text("Span Serial: "),
+                        Text(bridgeController.spanData[index].spanName),
+                        const Text("Span Length: "),
+                        Text(bridgeController.spanData[index].spanLength),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            bridgeController.removeSpan(
+                              bridgeController.spanData[index],
+                            );
+                          },
+                          icon: const Icon(Icons.delete),
+                        ),
+                        const SizedBox(width: 50),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            child: const Text("Add Component"),
+                          ),
+                        ),
+                        const SizedBox(width: 50),
+                      ],
+                    ),
+                  ],
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ElevatedButton(
-                    onPressed: bridgeController.addSpan,
-                    child: const Text("Add Span"),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      bool allValid = true;
-                      for (var element in bridgeController.spanWidgetList) {
-                        allValid = (allValid && element.isValidated());
-                      }
-                      if (allValid) {}
-                    },
-                    child: const Text("SAVE"),
-                  ),
-                ],
-              )
-            ],
+              );
+            },
           );
         },
       ),

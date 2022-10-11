@@ -13,19 +13,13 @@ class Component extends StatefulWidget {
 class _ComponentState extends State<Component> {
   final bridgeController = Get.put(HomeController());
 
-  _addComponent() {
-    setState(() {
-      bridgeController.componentList.add(componentSection());
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ...bridgeController.componentList,
         ElevatedButton(
-          onPressed: _addComponent,
+          onPressed: () {},
           child: const Text("Add Component"),
         ),
       ],

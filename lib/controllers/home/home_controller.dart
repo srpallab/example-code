@@ -1,56 +1,52 @@
+import 'dart:developer';
+
+import 'package:example_code/models/span_model.dart';
+import 'package:example_code/views/home/widgets/span_form_widget.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../models/span_model.dart';
-import '../../views/home/widgets/span_form_widget.dart';
-
 class HomeController extends GetxController {
-  List spanWidgetList = [].obs;
-  Map<String, dynamic> spanData = {};
-  List componentList = [].obs;
-  List dropDownButtonList = [].obs;
-  Map<int, String> dropdownValueList = {};
+  List spanData = [].obs;
+  List componentData = [].obs;
 
-  @override
-  void onInit() {
-    SpanModel spanModel = SpanModel(
-      id: 0,
-      spanLength: "",
-      spanName: "",
-      components: [],
-    );
-    spanWidgetList.add(
-      SpanFormWidget(
-        spanModel: spanModel,
-        index: 1,
-        onRemove: () => onRemove(spanModel),
-      ),
-    );
-    super.onInit();
+  final formKey = GlobalKey<FormState>();
+  final TextEditingController spanSerialController = TextEditingController();
+  final TextEditingController spanLengthController = TextEditingController();
+
+  bool validate() {
+    bool validate = formKey.currentState!.validate();
+    if (validate) formKey.currentState!.save();
+    return validate;
   }
 
-  void addSpan() {
-    SpanModel spanModel = SpanModel(
-      id: spanWidgetList.length,
-      spanLength: "",
-      spanName: "",
-      components: [],
-    );
-
-    spanWidgetList.add(
-      SpanFormWidget(
-        spanModel: spanModel,
-        index: spanWidgetList.length + 1,
-        onRemove: () => onRemove(spanModel),
-      ),
+  addSpanDialog() {
+    return Get.defaultDialog(
+      title: "Add Span",
+      textConfirm: "ADD",
+      onConfirm: () {
+        if (validate()) {
+          log(spanData.length.toString());
+          spanData.add(
+            SpanModel(
+              id: spanData.length,
+              spanName: spanSerialController.text,
+              spanLength: spanLengthController.text,
+              components: [],
+            ),
+          );
+          Get.back();
+        }
+      },
+      buttonColor: Colors.green,
+      confirmTextColor: Colors.white,
+      textCancel: "CANCEL",
+      cancelTextColor: Colors.red,
+      content: const SpanFormWidget(),
     );
   }
 
-  void onRemove(SpanModel spanModel) {
-    int index = spanWidgetList
-        .indexWhere((element) => element.spanModel.id == spanModel.id);
-
-    if (spanWidgetList.isNotEmpty) {
-      spanWidgetList.removeAt(index);
-    }
+  void removeSpan(SpanModel spanModel) {
+    int spanIndex = spanData.indexWhere((span) => span.id == spanModel.id);
+    spanData.removeAt(spanIndex);
   }
 }
