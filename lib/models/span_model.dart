@@ -4,7 +4,7 @@ class SpanModel {
   int id;
   String spanName;
   String spanLength;
-  List<Components> components;
+  List<ComponentModel> components;
 
   SpanModel({
     required this.id,

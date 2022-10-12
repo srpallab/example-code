@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -22,54 +24,99 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: bridgeController.addSpanDialog,
       ),
       body: GetX<HomeController>(
+        // tag: "component",
         builder: (_) {
-          return ListView.builder(
-            itemCount: bridgeController.spanData.length,
-            itemBuilder: (_, index) {
-              return Container(
-                padding: const EdgeInsets.all(10.0),
-                margin: const EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.black12, width: 1)),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        const Text("Span Serial: "),
-                        Text(bridgeController.spanData[index].spanName),
-                        const Text("Span Length: "),
-                        Text(bridgeController.spanData[index].spanLength),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
+          return spanSection();
+        },
+      ),
+    );
+  }
+
+  ListView spanSection() {
+    return ListView.builder(
+      itemCount: bridgeController.spanData.length,
+      itemBuilder: (_, index) {
+        return ExpansionTile(
+          title: Text(bridgeController.spanData[index].spanName),
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10.0),
+              margin: const EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.black12, width: 1),
+              ),
+              child: Column(
+                children: [
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      const Text("Span Serial: "),
+                      Text(bridgeController.spanData[index].spanName),
+                      const Text("Span Length: "),
+                      Text(bridgeController.spanData[index].spanLength),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  componentSection(index),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          bridgeController.removeSpan(
+                            bridgeController.spanData[index],
+                          );
+                        },
+                        icon: const Icon(Icons.delete),
+                      ),
+                      const SizedBox(width: 50),
+                      Expanded(
+                        child: ElevatedButton(
                           onPressed: () {
-                            bridgeController.removeSpan(
-                              bridgeController.spanData[index],
-                            );
+                            bridgeController.addComponentDialog(index);
                           },
-                          icon: const Icon(Icons.delete),
+                          child: const Text("Add Component"),
                         ),
-                        const SizedBox(width: 50),
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            child: const Text("Add Component"),
-                          ),
-                        ),
-                        const SizedBox(width: 50),
-                      ],
-                    ),
-                  ],
-                ),
-              );
-            },
+                      ),
+                      const SizedBox(width: 50),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget componentSection(int index) {
+    return SizedBox(
+      height: 120,
+      child: ListView.builder(
+        itemCount: bridgeController.spanData[index].components.length,
+        itemBuilder: (_, componentIndex) {
+          log(componentIndex.toString());
+          return ListTile(
+            title: Text(
+              bridgeController
+                  .spanData[index].components[componentIndex].componentId,
+            ),
+            subtitle: Text(
+              bridgeController
+                  .spanData[index].components[componentIndex].elementSerial,
+            ),
+            trailing: IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: () {
+                bridgeController.removeComponent(
+                  index,
+                  bridgeController.spanData[index].components[componentIndex],
+                );
+              },
+            ),
           );
         },
       ),

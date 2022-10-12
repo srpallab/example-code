@@ -1,8 +1,12 @@
-class Components {
-  int componentId;
-  int elementSerial;
+class ComponentModel {
+  int id;
+  String componentId;
+  String elementSerial;
 
-  Components({required this.componentId, required this.elementSerial});
+  ComponentModel(
+      {required this.id,
+      required this.componentId,
+      required this.elementSerial});
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
