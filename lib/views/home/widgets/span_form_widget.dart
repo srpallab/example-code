@@ -15,6 +15,10 @@ class _SpanFormWidgetState extends State<SpanFormWidget> {
 
   @override
   Widget build(BuildContext context) {
+    return spanFormMainSection();
+  }
+
+  Padding spanFormMainSection() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 18.0),
       child: Form(

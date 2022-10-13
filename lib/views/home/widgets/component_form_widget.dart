@@ -16,6 +16,10 @@ class _ComponentFormWidgetState extends State<ComponentFormWidget> {
 
   @override
   Widget build(BuildContext context) {
+    return componentMainSection();
+  }
+
+  Form componentMainSection() {
     return Form(
       key: bridgeController.formKey,
       child: Column(

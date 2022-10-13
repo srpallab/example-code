@@ -13,30 +13,34 @@ class MyDropDownButton extends StatelessWidget {
       init: HomeController(),
       initState: (_) {},
       builder: (logic) {
-        return Container(
-          padding: const EdgeInsets.all(10),
-          child: DropdownButton<String>(
-            value: bridgeController.dropDownValue.value,
-            isExpanded: true,
-            elevation: 16,
-            underline: Container(
-              width: double.infinity,
-              height: 2,
-              color: Colors.green,
-            ),
-            items: bridgeController.elements
-                .map<DropdownMenuItem<String>>((element) {
-              return DropdownMenuItem<String>(
-                value: element,
-                child: Text(element),
-              );
-            }).toList(),
-            onChanged: (value) {
-              bridgeController.dropDownValue.value = value!;
-            },
-          ),
-        );
+        return dropDownButton();
       },
+    );
+  }
+
+  Container dropDownButton() {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      child: DropdownButton<String>(
+        value: bridgeController.dropDownValue.value,
+        isExpanded: true,
+        elevation: 16,
+        underline: Container(
+          width: double.infinity,
+          height: 2,
+          color: Colors.green,
+        ),
+        items:
+            bridgeController.elements.map<DropdownMenuItem<String>>((element) {
+          return DropdownMenuItem<String>(
+            value: element,
+            child: Text(element),
+          );
+        }).toList(),
+        onChanged: (value) {
+          bridgeController.dropDownValue.value = value!;
+        },
+      ),
     );
   }
 }

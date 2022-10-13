@@ -19,16 +19,20 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("LGED")),
-      floatingActionButton: FloatingActionButton.extended(
-        label: const Text("Add Span"),
-        onPressed: bridgeController.addSpanDialog,
-      ),
+      floatingActionButton: addSpanFloatingButton(),
       body: GetX<HomeController>(
         // tag: "component",
         builder: (_) {
           return spanSection();
         },
       ),
+    );
+  }
+
+  FloatingActionButton addSpanFloatingButton() {
+    return FloatingActionButton.extended(
+      label: const Text("Add Span"),
+      onPressed: bridgeController.addSpanDialog,
     );
   }
 
