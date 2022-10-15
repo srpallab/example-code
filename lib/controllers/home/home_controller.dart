@@ -1,11 +1,12 @@
 import 'dart:developer';
 
-import 'package:example_code/models/component_model.dart';
-import 'package:example_code/models/span_model.dart';
-import 'package:example_code/views/home/widgets/component_form_widget.dart';
-import 'package:example_code/views/home/widgets/span_form_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../models/component_model.dart';
+import '../../models/span_model.dart';
+import '../../views/home/widgets/component_form_widget.dart';
+import '../../views/home/widgets/span_form_widget.dart';
 
 class HomeController extends GetxController {
   RxList<SpanModel> spanData = <SpanModel>[].obs;
